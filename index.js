@@ -19,7 +19,13 @@ wss.on('connection', (ws) => {
     if (data.type === 'message') {
       wss.clients.forEach((client) => {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ type: 'message', data: data.data }));
+          client.send(
+            JSON.stringify({
+              type: 'message',
+              data: data.data,
+              sender: data.sender,
+            }),
+          );
         }
       });
     }
