@@ -13,16 +13,17 @@ const wss = new WebSocketServer({ server });
 
 // WebSocket connection handling
 wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    console.log('Received message:', message);
-    ws.send('Server received your message: ' + message);
-  });
+  ws.on('message', function message(message) {
+    const data = JSON.parse(message);
 
-  ws.on('close', () => {
-    console.log('WebSocket connection closed');
+    if (data.type === 'message') {
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'message', data: data.data }));
+        }
+      });
+    }
   });
-
-  ws.send('Welcome to the WebSocket server!');
 });
 
 // Start the HTTP server
