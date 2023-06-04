@@ -9,7 +9,7 @@ const server = http.createServer((req, res) => {
 });
 
 // Create a WebSocket server by attaching it to the HTTP server
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
 // WebSocket connection handling
 wss.on('connection', (ws) => {
