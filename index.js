@@ -1,6 +1,7 @@
 import WebSocket, { WebSocketServer } from 'ws';
+const port = process.env.PORT || 3030;
 
-const wss = new WebSocketServer({ port: 3000 });
+const wss = new WebSocketServer({ port });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function message(message) {
